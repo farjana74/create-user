@@ -1,23 +1,22 @@
 import logo from './logo.svg';
 import './App.css';
+import UserCreate from './Pages/Users/UserCreate/UserCreate';
+import UserList from './Pages/Users/UserList/UserList';
+import { Route, Routes } from 'react-router';
+import View from './Pages/View/View';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Routes>
+        <Route path="/" element={<UserCreate />} />
+        <Route path="userCreate" element={<UserCreate />} />
+        <Route path="view" element={<View />} />
+        {/* <Route path="userList" element={<UserList />} /> */}
+      </Routes>
+
+      {/* <UserCreate></UserCreate>
+      <UserList></UserList> */}
     </div>
   );
 }
