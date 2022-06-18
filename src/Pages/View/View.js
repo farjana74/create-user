@@ -1,11 +1,9 @@
 
 import React, { useEffect, useState } from 'react';
 import DataTable from 'react-data-table-component';
+import { Link } from 'react-router-dom';
 
 const View = () => {
-
-
-
 
     // getting the values of local storage
     const getDatafromLS = () => {
@@ -21,16 +19,30 @@ const View = () => {
     // main array of objects state || books state || books array of objects
     const [users, setUsers] = useState(getDatafromLS());
 
+
     useEffect(() => {
         getDatafromLS();
     }, []);
+
+
+
+    // delete book from LS
+    const deleteUser = (phone) => {
+        const filteredUsers = users.filter((element, index) => {
+            return element.phone !== phone
+        })
+        setUsers(filteredUsers);
+
+    }
+
+
 
     // data tabel-----------------
     const columns = [
 
         {
             name: 'Name',
-            selector: row => row.firstName,
+            selector: row => row.firstName + ' ' + row.lastName,
             sortable: true,
         },
         {
@@ -40,6 +52,7 @@ const View = () => {
         {
             name: 'Date of Birth',
             selector: row => row.birth,
+            sortable: true,
         },
         {
             name: 'Email',
@@ -51,16 +64,16 @@ const View = () => {
         },
         {
             name: 'Action',
-            cell: row => [<button className='btn me-2 btn-danger'>Delete</button>, <button className='btn btn-warning'>Edit</button>]
+            cell: row => [<button onClick={() => (deleteUser(row.phone))} className='btn me-2 btn-danger'>Delete</button>, <button onClick={() => alert(row.phone)} className='btn btn-warning'>Edit</button>]
         }
     ];
 
 
 
     return (
-        <div className='mt-5'>
+        <div className='mt-2 container border shadow rounded'>
+
             <DataTable
-                title="Data Table"
                 columns={columns}
                 data={users}
                 pagination
@@ -69,17 +82,18 @@ const View = () => {
                 selectableRows
                 selectableRowsHighlight
                 highlightOnHover
-                // actions={<button className='btn btn-sm btn-primary'>Export Data</button>}
+                actions={<Link to="/userCreate"><button className='send-btn   p-2 rounded  '>Go Create User</button></Link>}
                 subHeader
                 subHeaderComponent={<input
                     type='text'
                     placeholder='Search'
                     className='w-25 form-control'
-                // value={search}
-                // onChange={(e) => setSearch(e.target.value)}
+
                 />}
             />
-            <button className='btn btn-primary btn-sm'>export</button>
+            <button className='btn btn-danger btn-md'
+                onClick={() => setUsers([])}>Remove All</button>
+
         </div>
     );
 };
